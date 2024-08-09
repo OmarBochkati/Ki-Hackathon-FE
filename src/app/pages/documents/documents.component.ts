@@ -2,19 +2,30 @@ import {Component, ElementRef, ViewChild, ViewEncapsulation} from '@angular/core
 import { MaterialModule } from 'src/app/material.module';
 import {ProgressComponent} from "../../components/progress/progress.component";
 import {DndDirective} from "../../directive/dnd.directive";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf, NgStyle} from "@angular/common";
+import {FileUploadService} from "../../services/file-upload.service";
+import {Observable} from "rxjs";
+import {HttpEventType, HttpResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-starter',
   templateUrl: './documents.component.html',
   standalone: true,
-  imports: [MaterialModule, ProgressComponent, DndDirective, NgForOf],
+  imports: [MaterialModule, ProgressComponent, DndDirective, NgForOf, NgStyle, NgIf],
   styleUrls: ['./documents.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class DocumentsComponent {
   @ViewChild("fileDropRef", { static: false }) fileDropEl: ElementRef;
   files: any[] = [];
+  selectedFiles?: any;
+  progressInfos: any[] = [];
+  message: string[] = [];
+
+  fileInfos?: Observable<any>;
+
+  constructor(private uploadService: FileUploadService) { }
+
 
   /**
    * on file drop handler
@@ -28,6 +39,10 @@ export class DocumentsComponent {
    */
   fileBrowseHandler(event: any) {
     let files = event?.target?.files
+
+    this.progressInfos = [];
+    this.selectedFiles = event.target.files;
+    console.log(this.selectedFiles)
     this.prepareFilesList(files);
   }
 
@@ -72,8 +87,8 @@ export class DocumentsComponent {
       item.progress = 0;
       this.files.push(item);
     }
-    this.fileDropEl.nativeElement.value = "";
-    this.uploadFilesSimulator(0);
+    //this.fileDropEl.nativeElement.value = "";
+    //this.uploadFilesSimulator(0);
   }
 
   /**
@@ -90,5 +105,36 @@ export class DocumentsComponent {
     const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+  }
+
+  uploadFiles(): void {
+    this.upload(this.selectedFiles!);
+  }
+
+  upload(files: any): void {
+  console.log(files)
+    if (files) {
+      this.uploadService.upload(files).subscribe({
+        next: (event: any) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            console.log(event)
+            //this.files[idx].progress = Math.round(100 * event.loaded / event.total);
+          } else if (event instanceof HttpResponse) {
+            console.log(event)
+            const msg = 'Uploaded the file successfully';
+            for (let i = 0; i < this.files.length; i++) {
+              this.files[i].progress = 100;
+            }
+            this.message.push(msg);
+            this.fileInfos = this.uploadService.getFiles();
+          }
+        },
+        error: (err: any) => {
+          const msg = 'Could not upload the file: ' + files;
+          this.message.push(msg);
+          this.fileInfos = this.uploadService.getFiles();
+        }
+      });
+    }
   }
 }

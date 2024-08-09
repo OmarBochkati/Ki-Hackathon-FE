@@ -7,6 +7,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import {AuthService} from "../../../services/auth/auth.service";
 
 @Component({
   selector: 'app-side-login',
@@ -17,10 +18,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class AppSideLoginComponent {
   options = this.settings.getOptions();
 
-  constructor(private settings: CoreService, private router: Router) {}
+  constructor(private settings: CoreService, private router: Router, private authService: AuthService) {}
 
   form = new FormGroup({
-    uname: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    email: new FormControl('', [Validators.required, Validators.minLength(6)]),
     password: new FormControl('', [Validators.required]),
   });
 
@@ -29,7 +30,13 @@ export class AppSideLoginComponent {
   }
 
   submit() {
-    // console.log(this.form.value);
-    this.router.navigate(['/dashboard/documents']);
+    console.log(this.form.value);
+    this.authService.signIn({email:this.form.get('email')?.value!, password:this.form.get('password')?.value!})
+        .subscribe((data : any) => {
+          console.log(data)
+          this.router.navigate(['/dashboard/documents']);
+        }, error => {
+          console.error(error)
+        })
   }
 }

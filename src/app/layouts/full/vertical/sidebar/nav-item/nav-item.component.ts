@@ -21,6 +21,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TablerIconsModule } from 'angular-tabler-icons';
 import { MaterialModule } from 'src/app/material.module';
 import { CommonModule } from '@angular/common';
+import {AuthService} from "../../../../../services/auth/auth.service";
 
 @Component({
   selector: 'app-nav-item',
@@ -50,7 +51,7 @@ export class AppNavItemComponent implements OnChanges {
   @Input() item: NavItem | any;
   @Input() depth: any;
 
-  constructor(public navService: NavService, public router: Router) {
+  constructor(public navService: NavService, public router: Router, private authService : AuthService) {
     if (this.depth === undefined) {
       this.depth = 0;
     }
@@ -94,5 +95,10 @@ export class AppNavItemComponent implements OnChanges {
         this.notify.emit();
       }
     }
+  }
+
+  disconnect() {
+    this.authService.signOut()
+    this.router.navigateByUrl('/authentication/login')
   }
 }

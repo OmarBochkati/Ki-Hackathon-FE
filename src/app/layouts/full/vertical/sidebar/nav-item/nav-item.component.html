@@ -2,7 +2,7 @@
   <div mat-subheader class="nav-caption">
     {{ item.navCap }}
   </div>
-  } @if(!item.navCap && !item.external && !item.twoLines) {
+  } @if(!item.navCap && !item.external && !item.twoLines && !item.hidden && !item.logout) {
   <a
     mat-list-item
     (click)="onItemSelected(item)"
@@ -40,7 +40,7 @@
   }
   
   <!-- external Link -->
-  
+
   @if(!item.navCap && item.external) {
   <mat-list-item
     onClick="window.open('//google.com')"
@@ -55,7 +55,20 @@
     <span class="hide-menu">{{ item.displayName | translate }}</span>
   </mat-list-item>
   }
-  
+
+    @if(item.logout && !item.hidden) {
+        <mat-list-item
+                (click)="disconnect()"
+                class="menu-list-item"
+        >
+            <i-tabler
+                    class="routeIcon"
+                    name="{{ item.iconName }}"
+                    matListItemIcon
+            ></i-tabler>
+            <span class="hide-menu">{{ item.displayName | translate }}</span>
+        </mat-list-item>
+    }
   <!-- children -->
   @if(expanded) { @for(child of item.children; track child) {
   <app-nav-item

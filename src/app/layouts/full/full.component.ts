@@ -20,6 +20,8 @@ import { AppHorizontalHeaderComponent } from './horizontal/header/header.compone
 import { AppHorizontalSidebarComponent } from './horizontal/sidebar/sidebar.component';
 import { AppBreadcrumbComponent } from './shared/breadcrumb/breadcrumb.component';
 import { CustomizerComponent } from './shared/customizer/customizer.component';
+import {UserService} from "../../services/user/user.service";
+import {AuthService} from "../../services/auth/auth.service";
 
 const MOBILE_VIEW = 'screen and (max-width: 768px)';
 const TABLET_VIEW = 'screen and (min-width: 769px) and (max-width: 1024px)';
@@ -64,7 +66,7 @@ interface quicklinks {
 })
 export class FullComponent implements OnInit {
   navItems = navItems;
-
+  user: any;
   @ViewChild('leftsidenav')
   public sidenav: MatSidenav;
   resView = false;
@@ -191,6 +193,7 @@ export class FullComponent implements OnInit {
   constructor(
     private settings: CoreService,
     private mediaMatcher: MediaMatcher,
+    private authService: AuthService,
     private router: Router,
     private breakpointObserver: BreakpointObserver,
     private navService: NavService
@@ -220,7 +223,23 @@ export class FullComponent implements OnInit {
       });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.user = this.authService.user;
+    if(this.user) {
+      this.navItems.forEach(
+          navItem => {
+            navItem.hidden = navItem.displayName == 'Register' || navItem.displayName == 'Login';
+          }
+      )
+    } else {
+      this.navItems.forEach(
+          navItem => {
+            navItem.hidden = navItem.displayName == 'Logout';
+          }
+      )
+
+    }
+  }
 
   ngOnDestroy() {
     this.layoutChangesSubscription.unsubscribe();

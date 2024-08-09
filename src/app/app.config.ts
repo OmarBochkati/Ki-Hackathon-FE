@@ -9,6 +9,7 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { routes } from './app.routes';
+import { provideAuth } from './services/auth/auth.provider';
 import {
   provideRouter,
   withComponentInputBinding,

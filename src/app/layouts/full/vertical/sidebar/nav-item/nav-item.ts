@@ -1,6 +1,8 @@
 export interface NavItem {
     displayName?: string;
     disabled?: boolean;
+    hidden?: boolean;
+    logout?: boolean;
     external?: boolean;
     twoLines?: boolean;
     chip?: boolean;

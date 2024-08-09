@@ -21,7 +21,13 @@ export const navItems: NavItem[] = [
   },
   {
     displayName: 'Register',
-    iconName: 'home',
+    iconName: 'certificate',
     route: '/authentication/register',
+  },
+  {
+    displayName: 'Logout',
+    iconName: 'logout-2',
+    route: '',
+    logout: true
   },
 ];
