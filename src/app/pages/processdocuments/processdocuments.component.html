@@ -18,7 +18,9 @@
                 </ul>
                 <mat-spinner *ngIf="showSpinner"></mat-spinner>
                 <span *ngIf="step1End"><strong>Topic </strong>{{step1Results.topic}}</span><br>
-                <span *ngIf="step1End"><strong>Service </strong>{{step1Results.service_name}}</span>
+                <span *ngIf="step1End"><strong>Service </strong>{{step1Results.service_name}}</span><br>
+                <span *ngIf="step1End"><strong>Document Labels </strong>{{step1Results.doc_labels}}</span><br>
+                <span *ngIf="step1End"><strong>Wrong documents </strong>{{step1Results.wrong_documents}}</span><br>
             </div>
         </mat-step>
         <mat-step>
