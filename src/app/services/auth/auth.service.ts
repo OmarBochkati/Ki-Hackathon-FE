@@ -130,7 +130,7 @@ export class AuthService
      */
     signUp(user: { full_name: string; email: string; password: string;  }): Observable<any>
     {
-        return this._httpClient.post('/auth/register', user);
+        return this._httpClient.post(this.baseUri +'/auth/register', user);
     }
 
     /**
