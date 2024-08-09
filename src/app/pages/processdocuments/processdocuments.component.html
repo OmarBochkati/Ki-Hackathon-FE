@@ -55,7 +55,7 @@
             mat-fab
             (click)="onChangeChatState()"
             [disableRipple]="true">
-        <img [src]="iconSrc" [@rotateAnimation]="iconState" [ngClass]="isOpen ? null : 'button-icon bot'" alt=""  style="width: 25px;">
+        <img [src]="iconSrc" [ngClass]="isOpen ? null : 'button-icon bot'" alt=""  style="width: 25px;">
     </button>
 </div>
 <app-chatbot *ngIf="isOpen" [display]="'collapsible-chat'" [@fadeAnimation]></app-chatbot>
