@@ -34,3 +34,19 @@
     }
 
 </div>
+
+<div class="d-flex align-items-center justify-content-end" style="
+    position: absolute;
+    top: 90%;
+    left: 90%;
+">
+    <button
+            class="chat-button"
+            matSuffix
+            mat-fab
+            (click)="onChangeChatState()"
+            [disableRipple]="true">
+        <img [src]="iconSrc" [ngClass]="isOpen ? null : 'button-icon bot'" alt=""  style="width: 25px;">
+    </button>
+</div>
+<app-chatbot *ngIf="isOpen" [display]="'collapsible-chat'" [@fadeAnimation]></app-chatbot>

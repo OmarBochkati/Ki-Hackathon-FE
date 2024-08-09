@@ -14,6 +14,7 @@
   position: fixed;
   border-radius: 8px;
   margin-top: 7vh;
+  z-index: 99999;
 }
 
 .collapsible-chat {
@@ -25,6 +26,7 @@
   top: 20%;
   right: 4%;
   border-radius: 8px;
+  z-index: 99999;
 }
 
 .chat-header {
