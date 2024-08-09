@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class FileUploadService {
-  private baseUrl = 'http://127.0.0.1:5000';
+  private baseUrl = environment.apiUrl
 
   constructor(private http: HttpClient) { }
 
@@ -27,5 +28,17 @@ export class FileUploadService {
 
   getFiles(): Observable<any> {
     return this.http.get(`${this.baseUrl}/documents`);
+  }
+
+  processFilesStep1(requestId:any): Observable<any> {
+    return this.http.get(`${this.baseUrl}/process/${requestId}`);
+  }
+
+  processFilesStep2(requestId:any, data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/check-completion/${requestId}`, data);
+  }
+
+  chatbot(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/chatbot`, data);
   }
 }

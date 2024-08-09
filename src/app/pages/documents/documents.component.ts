@@ -112,7 +112,7 @@ export class DocumentsComponent {
   }
 
   upload(files: any): void {
-  console.log(files)
+    console.log(files)
     if (files) {
       this.uploadService.upload(files).subscribe({
         next: (event: any) => {

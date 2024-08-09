@@ -11,8 +11,18 @@ export const navItems: NavItem[] = [
   },*/
   {
     displayName: 'Documents',
-    iconName: 'file',
-    route: '/dashboard/documents',
+    children: [
+      {
+        displayName: 'List Documents',
+        iconName: 'file',
+        route: '/dashboard/documents',
+      },
+      {
+        displayName: 'Add Documents',
+        iconName: 'clipboard-plus',
+        route: '/dashboard/add-documents',
+      },
+    ],
   },
   {
     displayName: 'Login',

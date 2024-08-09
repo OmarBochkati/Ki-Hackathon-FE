@@ -1,0 +1,36 @@
+
+<div class="d-flex align-items-center justify-content-end">
+    <button mat-flat-button routerLink="/dashboard/add-documents" color="primary">
+        Add new documents
+    </button>
+</div>
+
+<div style="display: flex;">
+    @for(elem of files; track elem.upload_Id){
+        <div class="col-lg-4">
+            <mat-card class="cardWithShadow">
+                <mat-card-content class="p-y-30">
+                    <mat-card-title>Request : {{ elem.upload_Id }}</mat-card-title>
+                    <mat-card-subtitle class="mat-body-1 p-b-16">Number of files : {{ elem.files_number }}</mat-card-subtitle>
+                    @for(stat of elem.files_names; track stat) {
+                        <div class="m-t-32">
+                            <div class="d-flex align-items-center m-b-24">
+                        <span class="text-primary bg-light-primary rounded icon-40 d-flex align-items-center justify-content-center" >
+                        </span>
+
+                                <div class="m-l-16 m-r-auto">
+                                    <h6 class="mat-subtitle-1 f-s-16 f-w-600">{{ stat }}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <button mat-stroked-button color="primary" class="w-100 m-t-8" routerLink="/dashboard/process-documents/{{elem.upload_Id}}">
+                        Process files
+                    </button>
+                </mat-card-content>
+            </mat-card>
+
+        </div>
+    }
+
+</div>

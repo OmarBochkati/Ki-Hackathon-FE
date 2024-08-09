@@ -1,0 +1,59 @@
+<mat-card class="cardWithShadow theme-card">
+    <mat-card-header>
+        <mat-card-title class="m-b-0">Data processing Wizard</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="b-t-1">
+    <mat-stepper #stepper>
+        <mat-step >
+            <ng-template matStepLabel>Document analysis and labeling</ng-template>
+            <div>
+                <button mat-stroked-button color="primary" class="w-100 m-t-8" [disabled]="showSpinner" (click)="processFilesStep1()">
+                    <span [hidden]="showSpinner">Start processing files</span>
+                    <mat-progress-bar [ngStyle]="{'visibility':showSpinner ? 'visible' : 'hidden'}" mode="indeterminate"></mat-progress-bar>
+                </button>
+            </div>
+            <div>
+                <ul *ngIf="step1start">
+                    <li *ngFor="let elem of list1">{{elem}}</li>
+                </ul>
+                <mat-spinner *ngIf="showSpinner"></mat-spinner>
+                <span *ngIf="step1End"><strong>Topic </strong>{{step1Results.topic}}</span><br>
+                <span *ngIf="step1End"><strong>Service </strong>{{step1Results.service_name}}</span>
+            </div>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Check Documents Authenticity and completion</ng-template>
+            <div>
+                <button mat-stroked-button color="primary" class="w-100 m-t-8" [disabled]="showSpinner2" (click)="processFilesStep2()">
+                    <span [hidden]="showSpinner2">Start processing files</span>
+                    <mat-progress-bar [ngStyle]="{'visibility':showSpinner2 ? 'visible' : 'hidden'}" mode="indeterminate"></mat-progress-bar>
+                </button>
+            </div>
+            <div>
+                <ul *ngIf="step2start">
+                    <li *ngFor="let elem of list2">{{elem}}</li>
+                </ul>
+                <mat-spinner *ngIf="showSpinner2"></mat-spinner>
+                <span *ngIf="step2End"><strong>Status </strong>{{step2Results.status}}</span><br>
+                <span *ngIf="step2End && step2Results.missing_documents"><strong>Missing documents </strong></span>
+                <ul *ngIf="step2End && step2Results.missing_documents">
+                    <li *ngFor="let elem of step2Results.missing_documents">{{elem}}</li>
+                </ul>
+
+            </div>
+
+        </mat-step>
+    </mat-stepper>
+    </mat-card-content>
+</mat-card>
+<div class="d-flex align-items-center justify-content-end">
+    <button
+            class="chat-button"
+            matSuffix
+            mat-fab
+            (click)="onChangeChatState()"
+            [disableRipple]="true">
+        <img [src]="iconSrc" [@rotateAnimation]="iconState" [ngClass]="isOpen ? null : 'button-icon bot'" alt=""  style="width: 25px;">
+    </button>
+</div>
+<app-chatbot *ngIf="isOpen" [display]="'collapsible-chat'" [@fadeAnimation]></app-chatbot>

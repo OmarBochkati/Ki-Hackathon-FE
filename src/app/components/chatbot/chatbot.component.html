@@ -1,0 +1,42 @@
+<form class="chat-container">
+    <mat-card [ngClass]="display">
+        <mat-card-header class="chat-header">
+            <img mat-card-avatar src="./assets/bot.png" class="chat-icon" style="width: 25px !important;">
+            <mat-card-title class="chat-title">Chatbot</mat-card-title>
+            <mat-card-subtitle class="chat-subtitle">
+                <div class="status-icon"></div>
+                <span>Online</span>
+            </mat-card-subtitle>
+        </mat-card-header>
+        <div class="chat-content" #messageContainer>
+            <div *ngFor="let message of messages" class="messages">
+                <div [ngClass]="'message ' + message.type">
+                    <span>{{ message.text }}</span>
+                </div>
+            </div>
+        </div>
+        <mat-card-actions class="chat-actions">
+            <mat-form-field appearance="outline" class="chat-form">
+            <textarea
+                    class="chat-input"
+                    matInput
+                    type="text"
+                    placeholder="Type message..."
+                    [(ngModel)]="userInput"
+                    [ngModelOptions]="{standalone: true}"
+                    (keydown.enter)="onClickEnter($event)"
+            ></textarea>
+                <button
+                        class="send-button"
+                        matSuffix
+                        mat-icon-button
+                        aria-label="Send"
+                        (click)="sendMessage()"
+                        [disableRipple]="true"
+                >
+                    <mat-icon class="send-icon">send</mat-icon>
+                </button>
+            </mat-form-field>
+        </mat-card-actions>
+    </mat-card>
+</form>
